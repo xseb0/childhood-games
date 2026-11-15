@@ -1,0 +1,171 @@
+{
+  "bas": "tomtenissar",
+  "namn": "Evil Tomtenissar – komplett",
+  "beskrivning": "Originalet plus det som fanns i filen men aldrig syntes: liv och rubrik med GAME OVER, molnen som släpper snöflingor och den stora snögubben med hatt på GO!-skärmen. Sebastian valde delarna 2026-11-15 (titelbilden 'START med Enter' och snöflingemönstret valdes bort).",
+  "lagg_till": [
+    {
+      "rum": "Start",
+      "objekt": "object37",
+      "x": 320,
+      "y": 140
+    },
+    {
+      "rum": "room_the_game",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room_the_game",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room_the_game",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    },
+    {
+      "rum": "room2",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room2",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room2",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    },
+    {
+      "rum": "room3",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room3",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room3",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    },
+    {
+      "rum": "room4",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room4",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room4",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    },
+    {
+      "rum": "room5",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room5",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room5",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    },
+    {
+      "rum": "room6",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room6",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room6",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    },
+    {
+      "rum": "room7",
+      "objekt": "Moln",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "rum": "room7",
+      "objekt": "Moln",
+      "x": 304,
+      "y": 0
+    },
+    {
+      "rum": "room7",
+      "objekt": "Moln",
+      "x": 512,
+      "y": 0
+    }
+  ],
+  "lagg_till_varfor": "Stora snögubben (object37, sprite64) är ritad som en snögubbe som kikar in från ett hörn, så den står i nedre högra hörnet på GO!-skärmen (Sebastians val). Molnen placerades aldrig ut; tre per bana högst upp är en gissning som Sebastian godkände.",
+  "kopiera_handelser": [
+    {
+      "fran": "Snögubben",
+      "till": "obj_menu_go",
+      "typ": "other",
+      "mal": 2
+    }
+  ],
+  "kopiera_handelser_varfor": "Snögubbens game start (rubrik 'Yoshima.tk Tomtenissar: … Liv: …' och +4 liv, alltså 3 liv från -1) körs bara för instanser i första rummet. Den flyttas till startrummets objekt så att den körs. Snögubbens eget 'inga liv kvar' (GAME OVER + omstart) fungerar sedan av sig självt.",
+  "ta_bort_handelser": [
+    {
+      "objekt": "Moln",
+      "typ": "alarm",
+      "mal": 0
+    }
+  ],
+  "lagg_till_handelser": [
+    {
+      "objekt": "Moln",
+      "typ": "create",
+      "mal": 0,
+      "kod": "alarm[0] = 15;"
+    },
+    {
+      "objekt": "Moln",
+      "typ": "alarm",
+      "mal": 0,
+      "kod": "if (floor(random(3)) == 0) instance_create(x + 8, y + 16, 34); alarm[0] = 15;"
+    }
+  ],
+  "handelser_varfor": "Molnets larm sattes aldrig och skapade en flinga i rummets hörn (0,0); här startar larmet, upprepas var 15:e steg och flingan faller från molnet, med originalets chans 1 på 3. Objektet anges som nummer 34 (snöflingor), eftersom motorn inte slår upp namn med å, ä, ö i kod."
+}

@@ -1,0 +1,42 @@
+{
+  "bas": "goombas",
+  "namn": "Goombas adventure – komplett",
+  "beskrivning": "Originalet plus det som var programmerat men aldrig utplacerat i version 1.0: ingången ner till underjorden och eldblomman. Sebastian minns att en äldre version hade dem, att man stod på röret och tryckte nedåtpil, och att eldblomman kom ur ?-block (2026-11-15).",
+  "nya_objekt": [
+    { "namn": "Flower_block", "kopia_av": "Coin_block",
+      "varfor": "?-block som släpper en eldblomma i stället för ett mynt. Ärver ?-blockets utseende och alla krockar (man kan stå på det, slå det underifrån osv.)." }
+  ],
+  "byt_instans": [
+    { "rum": "Bana1", "x": 240, "y": 400, "fran": "Coin_block", "till": "Flower_block" },
+    { "rum": "Bana1", "x": 320, "y": 400, "fran": "Coin_block", "till": "Flower_block" }
+  ],
+  "byt_instans_varfor": "De enda två ensamma ?-blocken i Bana1 (alla andra står i rader).",
+  "lagg_till": [
+    {
+      "rum": "Bana1", "objekt": "Next_room_down", "x": 752, "y": 420,
+      "varfor": "Osynlig markör på det låga röret utan växt (Rör_down vid 752,448). Linjen i spriten (rad 31) hamnar på raden där goomban står på rörets topp."
+    }
+  ],
+  "ta_bort_handelser": [
+    { "objekt": "Goomba_go", "typ": "collision", "mal": "Next_room_down" },
+    { "objekt": "Goomba_flower_go", "typ": "collision", "mal": "Next_room_down" },
+    { "objekt": "Goomba_go", "typ": "keypress", "mal": 38 },
+    { "objekt": "Goomba_flower_go", "typ": "keypress", "mal": 38 },
+    { "objekt": "Flower_block", "typ": "destroy", "mal": 0 }
+  ],
+  "lagg_till_handelser": [
+    { "objekt": "Goomba_go", "typ": "keyboard", "mal": 40,
+      "kod": "if (place_meeting(x, y, Next_room_down) && not place_free(x, y + 1)) room_goto(Underground);" },
+    { "objekt": "Goomba_flower_go", "typ": "keyboard", "mal": 40,
+      "kod": "if (place_meeting(x, y, Next_room_down) && not place_free(x, y + 1)) room_goto(Underground);" },
+    { "objekt": "Goomba_go", "typ": "keypress", "mal": 38,
+      "kod": "if (not place_free(x, y + 1)) { sound_play(oldjumpsound); vspeed = -10; }" },
+    { "objekt": "Goomba_flower_go", "typ": "keypress", "mal": 38,
+      "kod": "if (not place_free(x, y + 1)) { sound_play(oldjumpsound); vspeed = -10; }" },
+    { "objekt": "Flower_block", "typ": "destroy", "mal": 0,
+      "kod": "instance_create(x + 1, y - 16, Fire_flower); instance_create(x, y, Dud_block);" }
+  ],
+  "handelser_varfor": "Nedåtpil på röret i stället för att åka ner vid beröring. Hoppljud bara vid riktigt hopp (originalet spelar det vid varje tryck på ↑). Blomblocket skapar Fire_flower ovanpå sig och blir ett tomt block, som ?-blocket gör med myntet.",
+  "vy_foljer": ["Goomba_go", "Goomba_flower_go"],
+  "vy_foljer_varfor": "Originalets vy följer bara Goomba_go, så kameran skulle stanna när goomban blir eldgoomba."
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Childhood Games</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Layout: one centered column, a card per game. Single dark look, like the original night-blue start screen. */
+  :root { --bg:#0f2a4a; --card:#173a63; --line:#2c5282; --kbd:#0b2140; --text:#f3f6fb; --muted:#a9bbd3; --accent:#ffd34d;
+          color-scheme: dark; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100%; background:var(--bg); color:var(--text);
+         font:16px/1.5 -apple-system, system-ui, sans-serif;
+         padding-block:40px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); }
+  main { max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:28px; }
+  header { display:flex; flex-direction:column; gap:8px; }
+  h1 { font-size:2rem; margin:0; text-wrap:balance; }
+  p.lead { color:var(--muted); margin:0; max-width:62ch; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  a.card { display:flex; flex-direction:column; gap:6px; background:var(--card); border-radius:12px; padding:20px;
+           color:inherit; text-decoration:none; border:2px solid transparent; min-width:0; }
+  a.card:hover, a.card:focus-visible { border-color:var(--accent); outline:none; }
+  .card h2 { margin:0; font-size:1.25rem; }
+  .year { color:var(--accent); font-weight:600; font-size:.9rem; }
+  .card p { color:var(--muted); margin:0; font-size:.95rem; }
+  .keys { margin-top:auto; padding-top:6px; font-size:.85rem; color:var(--muted); }
+  kbd { background:var(--kbd); border:1px solid var(--line); border-radius:4px; padding:0 5px; font:inherit; color:var(--text); }
+  footer { color:var(--muted); font-size:.85rem; }
+</style>
+<main>
+  <header>
+    <h1>Childhood Games</h1>
+    <p class="lead">Incomplete remnants of games I made in Game Maker 5 between 2004 and 2006. Most was lost over the years, but here's the remnant code I found on an old hard drive. Rebuilt for the web with the originals' own graphics, sound and code.</p>
+  </header>
+  <div class="grid">
+    <a class="card" href="spel.html?spel=goombas&amp;variant=hoppljud">
+      <h2>Goombas adventure</h2>
+      <span class="year">January 2004</span>
+      <p>A platformer with coins, pipes and blocks. Version 1.0 as it was, with the jump sound fixed.</p>
+      <div class="keys"><kbd>←</kbd> <kbd>→</kbd> walk · <kbd>↑</kbd> jump</div>
+    </a>
+    <a class="card" href="spel.html?spel=goombas&amp;variant=komplett">
+      <h2>Goombas adventure – complete</h2>
+      <span class="year">January 2004 + what was missing</span>
+      <p>The same game with the parts that were never placed: fire flowers in the two lone ?-blocks at the start, and the way down to the underground. Stand on the low pipe after the plants and press <kbd>↓</kbd>.</p>
+      <div class="keys"><kbd>←</kbd> <kbd>→</kbd> walk · <kbd>↑</kbd> jump · <kbd>space</kbd> fireball</div>
+    </a>
+    <a class="card" href="spel.html?spel=tomtenissar">
+      <h2>Evil Tomtenissar</h2>
+      <span class="year">September 2006</span>
+      <p>A snowman against evil Christmas elves (tomtenissar) in eight snowy rooms.</p>
+      <div class="keys">click <kbd>GO!</kbd> · <kbd>←</kbd> <kbd>→</kbd> walk · <kbd>↑</kbd> jump</div>
+    </a>
+    <a class="card" href="spel.html?spel=tomtenissar&amp;variant=komplett">
+      <h2>Evil Tomtenissar – complete</h2>
+      <span class="year">September 2006 + what was hidden</span>
+      <p>The same game with what was left unused in the file: 3 lives and GAME OVER, clouds that drop snow, and the big snowman in a top hat on the start screen.</p>
+      <div class="keys">click <kbd>GO!</kbd> · <kbd>←</kbd> <kbd>→</kbd> walk · <kbd>↑</kbd> jump</div>
+    </a>
+  </div>
+  <footer>Played with a keyboard. Sound starts when you press a key or click in the game.</footer>
+</main>
+</body>
+</html>

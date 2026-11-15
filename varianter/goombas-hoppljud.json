@@ -1,0 +1,15 @@
+{
+  "bas": "goombas",
+  "namn": "Goombas adventure",
+  "beskrivning": "Originalet (version 1.0) med en enda rättelse: hoppljudet hörs bara när goomban faktiskt hoppar, inte vid varje tryck på ↑ i luften. Sebastian bad om det 2026-11-15.",
+  "ta_bort_handelser": [
+    { "objekt": "Goomba_go", "typ": "keypress", "mal": 38 },
+    { "objekt": "Goomba_flower_go", "typ": "keypress", "mal": 38 }
+  ],
+  "lagg_till_handelser": [
+    { "objekt": "Goomba_go", "typ": "keypress", "mal": 38,
+      "kod": "if (not place_free(x, y + 1)) { sound_play(oldjumpsound); vspeed = -10; }" },
+    { "objekt": "Goomba_flower_go", "typ": "keypress", "mal": 38,
+      "kod": "if (not place_free(x, y + 1)) { sound_play(oldjumpsound); vspeed = -10; }" }
+  ]
+}

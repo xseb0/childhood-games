@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Childhood Games</title>
+<style>
+  :root { --muted:#a9bbd3; }
+  html, body { margin:0; height:100%; background:#000; color:#f3f6fb;
+               font:14px/1.4 -apple-system, system-ui, sans-serif; overflow:hidden; }
+  body { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  #topp { display:flex; gap:16px; align-items:center; padding:6px 8px; color:var(--muted); min-height:20px; }
+  #topp a { color:var(--muted); text-decoration:none; }
+  #topp a:hover { color:#fff; }
+  #rubrik { white-space:pre; }
+  #fps { font-variant-numeric: tabular-nums; display:none; }
+  canvas { image-rendering: pixelated; image-rendering: crisp-edges; background:#000; outline:none; }
+  #fel { color:#ff8a8a; white-space:pre-wrap; padding:16px; max-width:800px; }
+  #ruta { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.35); }
+  #ruta div { background:#d4d0c8; color:#000; min-width:260px; max-width:420px; border:2px solid #fff;
+              box-shadow: 2px 2px 0 #404040; font:13px Tahoma, Verdana, sans-serif; }
+  #ruta h3 { margin:0; padding:3px 6px; font-size:13px; color:#fff; background:linear-gradient(90deg,#0a246a,#a6caf0); }
+  #ruta p { margin:18px 16px; white-space:pre-wrap; }
+  #ruta button { display:block; margin:0 auto 14px; min-width:80px; font:13px Tahoma, Verdana, sans-serif; }
+  #laddar { color:var(--muted); }
+</style>
+</head>
+<body>
+<div id="topp"><a href="index.html">← All games</a><span id="rubrik"></span><span id="fps"></span></div>
+<canvas id="skarm" tabindex="0"></canvas>
+<div id="laddar">Loading …</div>
+<div id="fel"></div>
+<div id="ruta"><div><h3 id="rutaRubrik"></h3><p id="rutaText"></p><button id="rutaOk">OK</button></div></div>
+<script type="module">
+import { startGame } from './motor/main.js';
+
+const q = new URLSearchParams(location.search);
+const namn = q.get('spel') || 'tomtenissar';
+const canvas = document.getElementById('skarm');
+const rubrik = document.getElementById('rubrik');
+const fpsEl = document.getElementById('fps');
+if (q.get('fps') === '1') fpsEl.style.display = '';
+
+const ruta = document.getElementById('ruta');
+let titel = namn;
+const ui = {
+  chromeHeight: () => document.getElementById('topp').offsetHeight + 8,
+  setCaption: (t) => { t = t.trim(); rubrik.textContent = t; titel = t.trim() || namn; document.title = titel; },
+  setFps: (steg, bilder) => { fpsEl.textContent = `${steg} steps/s · ${bilder} frames/s`; },
+  showMessage: (text) => new Promise((ok) => {
+    document.getElementById('rutaRubrik').textContent = titel.split('  ')[0] || namn;
+    document.getElementById('rutaText').textContent = text;
+    ruta.style.display = 'flex';
+    const knapp = document.getElementById('rutaOk');
+    const stang = () => {
+      ruta.style.display = 'none';
+      removeEventListener('keydown', tangent, true);
+      knapp.onclick = null;
+      canvas.focus();
+      ok();
+    };
+    const tangent = (e) => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); stang(); } };
+    knapp.onclick = stang;
+    setTimeout(() => addEventListener('keydown', tangent, true), 150);
+    knapp.focus();
+  }),
+};
+
+try {
+  await startGame(namn, canvas, ui, q.get('variant'));
+  document.getElementById('laddar').remove();
+  canvas.focus();
+} catch (e) {
+  document.getElementById('laddar').remove();
+  document.getElementById('fel').textContent = 'Error: ' + e.message;
+  console.error(e);
+}
+</script>
+</body>
+</html>
