@@ -24,7 +24,8 @@ export async function startGame(name, canvas, ui, variant) {
   const view = { w: 640, h: 480 };
   const fit = () => {
     const extra = ui.chromeHeight();
-    const s = Math.min(innerWidth / view.w, (innerHeight - extra) / view.h);
+    const res = ui.reserve ? ui.reserve() : { w: 0, h: 0 };  // plats för pekknappar
+    const s = Math.min((innerWidth - res.w) / view.w, (innerHeight - extra - res.h) / view.h);
     scale = s >= 1 ? Math.floor(s) : s;  // heltal ger skarpa pixlar
     canvas.style.width = `${view.w * scale}px`;
     canvas.style.height = `${view.h * scale}px`;
@@ -72,9 +73,16 @@ export async function startGame(name, canvas, ui, variant) {
     game.mouse.y = Math.floor((e.clientY - r.top) / (r.height / canvas.height)) + v.y;
   };
   const btn = (e) => (e.button === 0 ? 1 : e.button === 2 ? 2 : 3);
-  canvas.addEventListener('mousemove', toRoom);
-  canvas.addEventListener('mousedown', (e) => { audio.unlock(); toRoom(e); if (game.modal) return; const b = btn(e); game.mouse.buttons.add(b); game.mouse.pressed.add(b); });
-  addEventListener('mouseup', (e) => game.mouse.buttons.delete(btn(e)));
+  // Pekarhändelser i stället för mushändelser: ett tryck på mobilen räknas som ett vänsterklick.
+  // Ett kort tryck hålls nere minst ett steg, annars hinner GO!-knappens stegkod inte se det.
+  canvas.style.touchAction = 'none';
+  canvas.addEventListener('pointermove', toRoom);
+  canvas.addEventListener('pointerdown', (e) => { audio.unlock(); toRoom(e); if (game.modal) return; const b = btn(e); game.mouse.buttons.add(b); game.mouse.pressed.add(b); game.mouseDownStep = game.stepCount; });
+  addEventListener('pointerup', (e) => {
+    const b = btn(e);
+    if (game.stepCount > (game.mouseDownStep ?? -1)) game.mouse.buttons.delete(b);
+    else setTimeout(() => game.mouse.buttons.delete(b), 70);
+  });
   canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
   // stegloop
